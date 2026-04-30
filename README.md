@@ -29,6 +29,8 @@ chmod +x mac-temp
 sudo mv mac-temp /usr/local/bin/
 ```
 
+The binary is code-signed with a Developer ID and notarized by Apple — no Gatekeeper warnings.
+
 ## Usage
 
 ```bash
