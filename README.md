@@ -12,7 +12,13 @@ No dependencies. No Homebrew required to build. Native Objective-C.
 
 ## Installation
 
-### Option 1 — Build from source
+### Option 1 — Homebrew
+
+```bash
+brew install zackwag/tap/mac-temp
+```
+
+### Option 2 — Build from source
 
 ```bash
 git clone https://github.com/zackwag/mac-temp.git
@@ -20,7 +26,7 @@ cd mac-temp
 make install
 ```
 
-### Option 2 — Download pre-built universal binary
+### Option 3 — Download pre-built universal binary
 
 Download the latest binary from [Releases](../../releases), then:
 
@@ -37,6 +43,7 @@ The binary is code-signed with a Developer ID and notarized by Apple — no Gate
 mac-temp            # All sensors, human-readable
 mac-temp --json     # JSON output
 mac-temp --raw      # Single number (°C), pipe-friendly
+mac-temp --help     # Show help message
 ```
 
 ### Example output

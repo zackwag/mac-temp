@@ -26,8 +26,21 @@ int main(int argc, const char * argv[]) {
         BOOL jsonMode = NO;
         BOOL rawMode  = NO;
         for (int i = 1; i < argc; i++) {
-            if (strcmp(argv[i], "--json") == 0) jsonMode = YES;
-            if (strcmp(argv[i], "--raw")  == 0) rawMode  = YES;
+            if (strcmp(argv[i], "--json") == 0) { jsonMode = YES; }
+            else if (strcmp(argv[i], "--raw") == 0) { rawMode = YES; }
+            else if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
+                printf("Usage: mac-temp [OPTIONS]\n\n");
+                printf("Read CPU and thermal sensor temperatures on Apple Silicon Macs.\n\n");
+                printf("Options:\n");
+                printf("  --json    Output as JSON\n");
+                printf("  --raw     Output single temperature value (pipe-friendly)\n");
+                printf("  --help    Show this help message\n");
+                return 0;
+            } else {
+                fprintf(stderr, "Unknown option: %s\n", argv[i]);
+                fprintf(stderr, "Run 'mac-temp --help' for usage information.\n");
+                return 1;
+            }
         }
 
         IOHIDEventSystemClientRef system = IOHIDEventSystemClientCreate(kCFAllocatorDefault);
