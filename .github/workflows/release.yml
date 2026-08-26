@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build universal binary
+        run: make release
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mac-temp
+          generate_release_notes: true
+
+      - name: Update Homebrew tap
+        env:
+          TAP_TOKEN: ${{ secrets.TAP_TOKEN }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          SHA=$(shasum -a 256 mac-temp | awk '{print $1}')
+
+          git clone https://x-access-token:${TAP_TOKEN}@github.com/zackwag/homebrew-tap.git /tmp/tap
+          cd /tmp/tap
+
+          cat > Formula/mac-temp.rb << EOF
+          class MacTemp < Formula
+            desc "Lightweight CLI to read CPU and thermal sensor temperatures on Apple Silicon Macs"
+            homepage "https://github.com/zackwag/mac-temp"
+            url "https://github.com/zackwag/mac-temp/releases/download/v#{version}/mac-temp"
+            version "${VERSION}"
+            sha256 "${SHA}"
+            license "MIT"
+
+            depends_on :macos
+
+            def install
+              bin.install "mac-temp"
+            end
+
+            test do
+              assert_match version.to_s, shell_output("#{bin}/mac-temp --version", 1)
+            end
+          end
+          EOF
+          sed -i '' 's/^          //' Formula/mac-temp.rb
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/mac-temp.rb
+          git commit -m "Update mac-temp to ${VERSION}"
+          git push
