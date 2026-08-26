@@ -8,7 +8,7 @@ No dependencies. No Homebrew required to build. Native Objective-C.
 
 - macOS 12+ (Monterey or later)
 - Apple Silicon Mac (M1, M2, M3, M4 series)
-- Xcode Command Line Tools (`xcode-select --install`)
+- Xcode Command Line Tools (`xcode-select --install`) — only needed if building from source
 
 ## Installation
 
