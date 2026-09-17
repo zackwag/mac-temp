@@ -17,11 +17,10 @@ jobs:
       - name: Build universal binary
         run: make release
 
-      - name: Create release
-        uses: softprops/action-gh-release@v3
-        with:
-          files: mac-temp
-          generate_release_notes: true
+      - name: Attach binary to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${GITHUB_REF_NAME}" mac-temp --repo "${GITHUB_REPOSITORY}" --clobber
 
       - name: Update Homebrew tap
         env:
@@ -35,7 +34,7 @@ jobs:
           cd /tmp/tap
           git checkout -b "$BRANCH"
 
-          cat > Formula/mac-temp.rb << EOF
+          cat > Formula/mac-temp.rb << EOF2
           class MacTemp < Formula
             desc "Lightweight CLI to read CPU and thermal sensor temperatures on Apple Silicon Macs"
             homepage "https://github.com/zackwag/mac-temp"
@@ -54,7 +53,7 @@ jobs:
               system "true"
             end
           end
-          EOF
+          EOF2
           sed -i '' 's/^          //' Formula/mac-temp.rb
 
           git config user.name "github-actions[bot]"
