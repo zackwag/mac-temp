@@ -29,9 +29,11 @@ jobs:
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           SHA=$(shasum -a 256 mac-temp | awk '{print $1}')
+          BRANCH="update-mac-temp-${VERSION}"
 
           git clone https://x-access-token:${TAP_TOKEN}@github.com/zackwag/homebrew-tap.git /tmp/tap
           cd /tmp/tap
+          git checkout -b "$BRANCH"
 
           cat > Formula/mac-temp.rb << EOF
           class MacTemp < Formula
@@ -58,5 +60,26 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add Formula/mac-temp.rb
-          git commit -m "Update mac-temp to ${VERSION}"
-          git push
+          git diff --cached --quiet && exit 0
+          git commit -m "chore(mac-temp): update to ${VERSION}"
+          git push origin "$BRANCH"
+
+          export GH_TOKEN="$TAP_TOKEN"
+          gh pr create --repo zackwag/homebrew-tap --base main --head "$BRANCH" \
+            --title "chore(mac-temp): update to ${VERSION}" \
+            --body "Automated update from a mac-temp release."
+
+          pr_number=$(gh pr list --repo zackwag/homebrew-tap --head "$BRANCH" --json number -q '.[0].number')
+          for i in $(seq 1 40); do
+            pending=$(gh pr view "$pr_number" --repo zackwag/homebrew-tap --json statusCheckRollup -q '[.statusCheckRollup[] | select(.status!="COMPLETED")] | length')
+            if [ "$pending" = "0" ]; then break; fi
+            sleep 15
+          done
+
+          bad=$(gh pr view "$pr_number" --repo zackwag/homebrew-tap --json statusCheckRollup -q '[.statusCheckRollup[] | select((.conclusion // "") | IN("SUCCESS","NEUTRAL","SKIPPED") | not)] | length')
+          if [ "$bad" != "0" ]; then
+            echo "::error::$bad check(s) did not succeed; leaving PR #$pr_number open for review."
+            exit 1
+          fi
+
+          gh pr merge "$pr_number" --repo zackwag/homebrew-tap --squash --delete-branch
