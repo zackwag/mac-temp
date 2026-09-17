@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1](https://github.com/zackwag/mac-temp/compare/v1.2.0...v1.2.1) (2026-09-17)
+
+
+### Bug Fixes
+
+* **ci:** use RELEASE_PLEASE_TOKEN so releases trigger downstream workflows ([#7](https://github.com/zackwag/mac-temp/issues/7)) ([6491266](https://github.com/zackwag/mac-temp/commit/649126609515ed671b1d5e52a4b9dd4d4dff407c))
+* **ci:** wait for checks to actually register before polling for completion ([#9](https://github.com/zackwag/mac-temp/issues/9)) ([ceaa5de](https://github.com/zackwag/mac-temp/commit/ceaa5dee89e412b1e229856b1ff6cdbc39da44e0))
+
 ## [1.2.0](https://github.com/zackwag/mac-temp/compare/v1.1.0...v1.2.0) (2026-09-17)
 
 
