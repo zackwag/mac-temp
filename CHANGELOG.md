@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/zackwag/mac-temp/compare/v1.2.1...v1.3.0) (2026-09-18)
+
+
+### Features
+
+* **lint:** add clang-format style checking ([#11](https://github.com/zackwag/mac-temp/issues/11)) ([87a899f](https://github.com/zackwag/mac-temp/commit/87a899f49c9fef1f3ced77068556e41f55578b67))
+
 ## [1.2.1](https://github.com/zackwag/mac-temp/compare/v1.2.0...v1.2.1) (2026-09-17)
 
 
