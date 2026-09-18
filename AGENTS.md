@@ -17,6 +17,8 @@ make              # builds ./mac-temp
 ./mac-temp --raw  # single number in °C, pipe-friendly
 make install      # build + copy to /usr/local/bin
 make release      # universal arm64+x86_64 binary via lipo
+make format       # apply clang-format style (config in .clang-format)
+make lint         # check formatting without modifying files (what CI runs)
 ```
 
 ## Test
@@ -26,7 +28,8 @@ No automated test suite exists — this tool reads live hardware sensors via IOK
 ## Repository structure
 
 - `mac-temp.m` — the entire tool (single Objective-C source file)
-- `Makefile` — build/install/release targets
+- `Makefile` — build/install/release/format/lint targets
+- `.clang-format` — formatting style, enforced in CI via `make lint`
 
 ## Commit and PR conventions
 

@@ -1,0 +1,14 @@
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  format:
+    name: clang-format
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - run: make lint

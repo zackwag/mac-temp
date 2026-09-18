@@ -4,7 +4,7 @@ TARGET = mac-temp
 SOURCE = mac-temp.m
 PREFIX = /usr/local/bin
 
-.PHONY: all install uninstall clean release
+.PHONY: all install uninstall clean release format lint
 
 all: $(TARGET)
 
@@ -28,3 +28,9 @@ release: $(SOURCE)
 	lipo -create -output $(TARGET) $(TARGET)-arm64 $(TARGET)-x86_64
 	@echo "Universal binary ready: $(TARGET)"
 	@lipo -info $(TARGET)
+
+format: $(SOURCE)
+	clang-format -i $(SOURCE)
+
+lint: $(SOURCE)
+	clang-format --dry-run --Werror $(SOURCE)
