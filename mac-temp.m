@@ -4,9 +4,9 @@
 // Private IOHIDEventSystem API declarations
 // These exist in IOKit.framework but aren't in public headers
 
-typedef struct __IOHIDEventSystemClient * IOHIDEventSystemClientRef;
-typedef struct __IOHIDServiceClient * IOHIDServiceClientRef;
-typedef struct __IOHIDEvent * IOHIDEventRef;
+typedef struct __IOHIDEventSystemClient *IOHIDEventSystemClientRef;
+typedef struct __IOHIDServiceClient *IOHIDServiceClientRef;
+typedef struct __IOHIDEvent *IOHIDEventRef;
 typedef uint32_t IOHIDEventType;
 typedef int32_t IOHIDEventField;
 
@@ -17,18 +17,21 @@ typedef int32_t IOHIDEventField;
 extern IOHIDEventSystemClientRef IOHIDEventSystemClientCreate(CFAllocatorRef allocator);
 extern int IOHIDEventSystemClientSetMatching(IOHIDEventSystemClientRef client, CFDictionaryRef match);
 extern CFArrayRef IOHIDEventSystemClientCopyServices(IOHIDEventSystemClientRef client);
-extern IOHIDEventRef IOHIDServiceClientCopyEvent(IOHIDServiceClientRef service, IOHIDEventType type, int options, uint64_t timestamp);
+extern IOHIDEventRef IOHIDServiceClientCopyEvent(IOHIDServiceClientRef service, IOHIDEventType type, int options,
+                                                 uint64_t timestamp);
 extern double IOHIDEventGetFloatValue(IOHIDEventRef event, IOHIDEventField field);
 extern CFTypeRef IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef key);
 
-int main(int argc, const char * argv[]) {
+int main(int argc, const char *argv[]) {
     @autoreleasepool {
         BOOL jsonMode = NO;
-        BOOL rawMode  = NO;
+        BOOL rawMode = NO;
         for (int i = 1; i < argc; i++) {
-            if (strcmp(argv[i], "--json") == 0) { jsonMode = YES; }
-            else if (strcmp(argv[i], "--raw") == 0) { rawMode = YES; }
-            else if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
+            if (strcmp(argv[i], "--json") == 0) {
+                jsonMode = YES;
+            } else if (strcmp(argv[i], "--raw") == 0) {
+                rawMode = YES;
+            } else if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
                 printf("Usage: mac-temp [OPTIONS]\n\n");
                 printf("Read CPU and thermal sensor temperatures on Apple Silicon Macs.\n\n");
                 printf("Options:\n");
@@ -50,10 +53,7 @@ int main(int argc, const char * argv[]) {
         }
 
         // Match only temperature sensor services
-        NSDictionary *matching = @{
-            @"PrimaryUsagePage": @(0xff00),
-            @"PrimaryUsage":     @(5)
-        };
+        NSDictionary *matching = @{@"PrimaryUsagePage": @(0xff00), @"PrimaryUsage": @(5)};
         IOHIDEventSystemClientSetMatching(system, (__bridge CFDictionaryRef)matching);
 
         CFArrayRef services = IOHIDEventSystemClientCopyServices(system);
@@ -96,7 +96,10 @@ int main(int argc, const char * argv[]) {
             // Prefer "tcal" as the primary calibrated temp
             NSDictionary *best = nil;
             for (NSDictionary *r in readings) {
-                if ([r[@"name"] containsString:@"tcal"]) { best = r; break; }
+                if ([r[@"name"] containsString:@"tcal"]) {
+                    best = r;
+                    break;
+                }
             }
             if (!best) best = readings[0];
             printf("%.1f\n", [best[@"temp"] doubleValue]);
@@ -105,10 +108,8 @@ int main(int argc, const char * argv[]) {
             printf("{\n");
             for (NSUInteger i = 0; i < readings.count; i++) {
                 NSDictionary *r = readings[i];
-                printf("  \"%s\": %.1f%s\n",
-                    [r[@"name"] UTF8String],
-                    [r[@"temp"] doubleValue],
-                    i < readings.count - 1 ? "," : "");
+                printf("  \"%s\": %.1f%s\n", [r[@"name"] UTF8String], [r[@"temp"] doubleValue],
+                       i < readings.count - 1 ? "," : "");
             }
             printf("}\n");
 

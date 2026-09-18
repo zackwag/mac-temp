@@ -19,7 +19,11 @@ make           # build the mac-temp binary
 make install   # build and install to /usr/local/bin
 make release   # build a universal (arm64 + x86_64) binary
 make clean     # remove build artifacts
+make format    # apply clang-format style
+make lint      # check formatting without modifying files (what CI runs)
 ```
+
+Formatting is enforced by clang-format (config in `.clang-format`) via the "Lint" CI check. Run `make format` before committing.
 
 There is no automated test suite — this is a single-file (`mac-temp.m`) tool that reads hardware sensors directly via IOKit, which isn't practical to unit test in CI. Changes are verified by building and running on real Apple Silicon hardware.
 
