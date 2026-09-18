@@ -30,7 +30,7 @@ release: $(SOURCE)
 	@lipo -info $(TARGET)
 
 format: $(SOURCE)
-	clang-format -i $(SOURCE)
+	xcrun clang-format -i $(SOURCE)
 
 lint: $(SOURCE)
-	clang-format --dry-run --Werror $(SOURCE)
+	xcrun clang-format --dry-run --Werror $(SOURCE)
