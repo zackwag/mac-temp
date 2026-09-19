@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/zackwag/mac-temp/compare/v1.3.0...v1.3.1) (2026-09-19)
+
+
+### Bug Fixes
+
+* **ci:** fix brew style failures in the generated formula template ([#13](https://github.com/zackwag/mac-temp/issues/13)) ([3806805](https://github.com/zackwag/mac-temp/commit/380680512eecdc4cf57b98fe5a370064c4aef2a9))
+
 ## [1.3.0](https://github.com/zackwag/mac-temp/compare/v1.2.1...v1.3.0) (2026-09-18)
 
 
