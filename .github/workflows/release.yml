@@ -36,10 +36,10 @@ jobs:
 
           cat > Formula/mac-temp.rb << EOF2
           class MacTemp < Formula
-            desc "Lightweight CLI to read CPU and thermal sensor temperatures on Apple Silicon Macs"
+            desc "CLI to read CPU and thermal sensor temperatures on Apple Silicon"
             homepage "https://github.com/zackwag/mac-temp"
-            version "${VERSION}"
             url "https://github.com/zackwag/mac-temp/releases/download/v${VERSION}/mac-temp"
+            version "${VERSION}"
             sha256 "${SHA}"
             license "MIT"
 
