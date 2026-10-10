@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.2](https://github.com/zackwag/mac-temp/compare/v1.3.1...v1.3.2) (2026-10-10)
+
+
+### Miscellaneous Chores
+
+* **deps:** bump actions/checkout from 4 to 7 ([#16](https://github.com/zackwag/mac-temp/issues/16)) ([53deb6a](https://github.com/zackwag/mac-temp/commit/53deb6ade3c74bf5e9e5838a684144c2c6a5949b))
+* **deps:** bump amannn/action-semantic-pull-request from 5 to 6 ([#17](https://github.com/zackwag/mac-temp/issues/17)) ([386ecdb](https://github.com/zackwag/mac-temp/commit/386ecdb069083f8f46acb71177f3972cdc62e4a2))
+* **deps:** bump googleapis/release-please-action from 4 to 5 ([#15](https://github.com/zackwag/mac-temp/issues/15)) ([9347c6e](https://github.com/zackwag/mac-temp/commit/9347c6ebecd3e96877e8b641cd5b0812f4d3b705))
+
 ## [1.3.1](https://github.com/zackwag/mac-temp/compare/v1.3.0...v1.3.1) (2026-09-19)
 
 
