@@ -105,11 +105,26 @@ int main(int argc, const char *argv[]) {
             printf("%.1f\n", [best[@"temp"] doubleValue]);
 
         } else if (jsonMode) {
+            NSMutableOrderedSet *names = [NSMutableOrderedSet orderedSet];
+            NSMutableDictionary<NSString *, NSMutableArray<NSNumber *> *> *grouped = [NSMutableDictionary dictionary];
+            for (NSDictionary *r in readings) {
+                NSString *name = r[@"name"];
+                if (!grouped[name]) {
+                    grouped[name] = [NSMutableArray array];
+                    [names addObject:name];
+                }
+                [grouped[name] addObject:r[@"temp"]];
+            }
             printf("{\n");
-            for (NSUInteger i = 0; i < readings.count; i++) {
-                NSDictionary *r = readings[i];
-                printf("  \"%s\": %.1f%s\n", [r[@"name"] UTF8String], [r[@"temp"] doubleValue],
-                       i < readings.count - 1 ? "," : "");
+            NSUInteger idx = 0;
+            for (NSString *name in names) {
+                NSMutableArray<NSNumber *> *temps = grouped[name];
+                printf("  \"%s\": [", [name UTF8String]);
+                for (NSUInteger j = 0; j < temps.count; j++) {
+                    printf("%.1f%s", [temps[j] doubleValue], j < temps.count - 1 ? ", " : "");
+                }
+                printf("]%s\n", idx < names.count - 1 ? "," : "");
+                idx++;
             }
             printf("}\n");
 
