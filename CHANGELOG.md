@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.4](https://github.com/zackwag/mac-temp/compare/v1.3.3...v1.3.4) (2026-11-11)
+
+
+### Bug Fixes
+
+* output JSON array to avoid duplicate keys ([#22](https://github.com/zackwag/mac-temp/issues/22)) ([da7518e](https://github.com/zackwag/mac-temp/commit/da7518e8557354e5d3cd0ea279fda1e0186cf2dd))
+
 ## [1.3.3](https://github.com/zackwag/mac-temp/compare/v1.3.2...v1.3.3) (2026-11-11)
 
 
