@@ -80,12 +80,15 @@ done
 
 ### JSON output (`mac-temp --json`)
 
+Sensors are grouped by name, each holding an array of readings (some sensors report from multiple cores):
+
 ```json
 {
-  "PMU tcal": 51.9,
-  "PMU tdev1": 49.2,
-  "PMU tdev2": 48.7,
-  "PMU tdev3": 47.1
+  "NAND CH0 temp": [33.0],
+  "PMU tcal": [51.9, 51.9],
+  "PMU tdev1": [41.5, 42.9],
+  "PMU tdie1": [45.4, 45.3, 45.0, 45.3],
+  "gas gauge battery": [29.0, 29.4, 29.4, 29.4, 28.0, 28.8]
 }
 ```
 
